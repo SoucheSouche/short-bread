@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <exception>
 #include <stdexcept>
 #include <cstdio>
@@ -20,7 +21,7 @@ void Dictionnary::init(const std::string &csDictionnaryUrl)
     bIsInitialized = true;
 }
 
-std::vector<std::string> Dictionnary::getDictionnarySubset(const std::size_t cWordLength)
+const std::vector<std::string> &Dictionnary::getDictionnarySubset(const std::size_t cWordLength)
 {
     initializationCheck();
     return subsetDictionnary[cWordLength];
@@ -29,7 +30,13 @@ std::vector<std::string> Dictionnary::getDictionnarySubset(const std::size_t cWo
 bool Dictionnary::belongsTo(const std::string &csWord)
 {
     initializationCheck();
-    return true;
+    bool bRetVal = false;
+    const std::vector<std::string> &subset = getDictionnarySubset(csWord.size());
+    if (std::find(subset.begin(), subset.end(), csWord) != subset.end())
+    {
+        bRetVal = true;
+    }
+    return bRetVal;
 }
 
 bool Dictionnary::getFile(const std::string &csDictionnaryUrl)

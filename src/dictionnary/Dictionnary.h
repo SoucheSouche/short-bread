@@ -22,7 +22,7 @@ public:
      * @param cWordLength The length of words defining the dictionary subset to get
      * @return std::vector<std::string> The dictionnary subset containing all words of a given length
      */
-    static std::vector<std::string> getDictionnarySubset(const std::size_t cWordLength);
+    static const std::vector<std::string> &getDictionnarySubset(const std::size_t cWordLength);
 
     /**
      * @brief return the information whether a word belongs to the dictionnary or not.

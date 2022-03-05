@@ -17,7 +17,6 @@ override CXXFLAGS+=-std=c++17 -Wall -Wextra -Wconversion -pedantic -fpic
 CURL_DIR=/usr/bin/curl
 
 override INC+=-I$(SRC_DIR)
-override INC+=-I${CURL_DIR}
 override INC+=-I$(SRC_DIR)/dictionnary
 override INC+=-I$(SRC_DIR)/httpClient
 

@@ -24,7 +24,7 @@ std::vector<std::string> ShortBread::getResult(const std::string &csStartWord, c
     result.clear();
 
     // check if the input words size matches as a solution does not exist for 2 words with different length.
-    if ((csStartWord.size() != csEndWord.size()) || (0 == csStartWord.compare(csEndWord)))
+    if (csStartWord.size() != csEndWord.size())
     {
         return result;
     }
@@ -43,8 +43,10 @@ std::vector<std::string> ShortBread::getResult(const std::string &csStartWord, c
 
 void ShortBread::shortBreadAlgo(std::vector<std::string> &oResult, const std::string &csStartWord, const std::string &csEndWord, std::size_t &letterPosition)
 {
-    // Get the subset of word with the same size as the input words.
-    std::vector<std::string> csDictionnarySubset = Dictionnary::getDictionnarySubset(csStartWord.size());
+    if (0 == csStartWord.compare(csEndWord) || csStartWord.size() <= letterPosition)
+    {
+        return;
+    }
 
     // create a new word from the csStartWord by switching the letter at letterPosition to match the one from csEndWord.
     // if the letter from the start word and the end word are same at the letterPosition, just call the shortBreadAlgo() with updated parameters
