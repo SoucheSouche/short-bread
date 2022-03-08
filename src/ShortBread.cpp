@@ -1,11 +1,15 @@
+#include <algorithm>
+#include <iostream>
+
 #include "Constants.h"
-// #include "Dictionnary.h"
+#include "Dictionnary.h"
 #include "ShortBread.h"
 
 std::mutex ShortBread::mutex{};
 
 void ShortBread::init()
 {
+    std::cout << "Initialization..." << std::endl;
     try
     {
         Dictionnary::init(csDictionnaryUrl);
@@ -13,7 +17,9 @@ void ShortBread::init()
     catch (const std::exception &e)
     {
         throw;
+        std::cout << "Initialization failure." << std::endl;
     }
+    std::cout << "Initialization success" << std::endl;
 }
 
 std::vector<std::string> ShortBread::getResult(const std::string &csStartWord, const std::string &csEndWord)
@@ -29,44 +35,67 @@ std::vector<std::string> ShortBread::getResult(const std::string &csStartWord, c
         return result;
     }
 
-    std::size_t letterPosition = 0;
     // ad the start word to the result
     result.push_back(csStartWord);
 
+    // std::vector<std::string> subset = Dictionnary::getDictionnarySubset(csEndWord.size());
+    // std::cout << subset.size() << std::endl;
+    // for (auto &it : subset)
+    // {
+    //     std::cout << it << std::endl;
+    // }
+
     // execute the recursive algo to try and find a solution to the shortbread problem
-    shortBreadAlgo(result, csStartWord, csEndWord, letterPosition);
+    std::size_t letterPosition = 0;
+    shortBreadAlgo(result, csEndWord, letterPosition);
 
     mutex.unlock();
 
     return result;
 }
 
-void ShortBread::shortBreadAlgo(std::vector<std::string> &oResult, const std::string &csStartWord, const std::string &csEndWord, std::size_t &letterPosition)
+void ShortBread::shortBreadAlgo(std::vector<std::string> &oResult, const std::string &csEndWord,
+                                std::size_t &letterPosition)
 {
-    if (0 == csStartWord.compare(csEndWord) || csStartWord.size() <= letterPosition)
+    if (0 == oResult.back().compare(csEndWord))
     {
         return;
     }
 
-    // create a new word from the csStartWord by switching the letter at letterPosition to match the one from csEndWord.
-    // if the letter from the start word and the end word are same at the letterPosition, just call the shortBreadAlgo() with updated parameters
-    if (csStartWord.at(letterPosition) == csEndWord.at(letterPosition))
+    // get through the letters from the alphabet
+    for (std::size_t iPosition = 0; iPosition < csEndWord.size(); iPosition++)
     {
-        letterPosition++;
-        shortBreadAlgo(oResult, csStartWord, csEndWord, letterPosition);
-    }
-    else
-    {
-        std::string newWord = csStartWord;
-        newWord.at(letterPosition) = csEndWord.at(letterPosition);
-
-        // check if the new word belongs to the dictionary and add it to the vector result if it does.
-        // call the shortBreadAlgo() with updated parameters
-        if (Dictionnary::belongsTo(newWord))
+        std::vector<char> availableLetters = csAlphabet;
+        char targetLetter = csEndWord.at(iPosition);
+        auto targetLetterIt = std::find(availableLetters.begin(), availableLetters.end(), targetLetter);
+        availableLetters.erase(targetLetterIt);
+        availableLetters.push_back(targetLetter);
+        if (oResult.back().at(iPosition) == csEndWord.at(iPosition))
         {
-            oResult.push_back(newWord);
-            letterPosition++;
-            shortBreadAlgo(oResult, newWord, csEndWord, letterPosition);
+            continue;
+        }
+        for (std::vector<char>::reverse_iterator itLetter = availableLetters.rbegin(); itLetter != availableLetters.rend(); itLetter++)
+        {
+            std::string newWord = oResult.back();
+            newWord.at(iPosition) = *itLetter;
+            if (Dictionnary::belongsTo(newWord) && std::find(oResult.begin(), oResult.end(), newWord) == oResult.end())
+            {
+                oResult.push_back(newWord);
+                if (newWord == csEndWord)
+                {
+                    return;
+                }
+                shortBreadAlgo(oResult, csEndWord, letterPosition);
+                if (oResult.back() == csEndWord)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                // continue with a new letter
+            }
         }
     }
+    oResult.pop_back();
 }

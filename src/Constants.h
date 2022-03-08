@@ -6,8 +6,8 @@
 
 const std::string csDictionnaryUrl = "https://www.wordgamedictionary.com/enable/download/enable.txt";
 
-const std::vector<std::string>
-    csAlphabet =
-        {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "z", "y", "z"};
+const std::vector<char>
+    csAlphabet = {'j', 'q', 'x', 'z', 'w', 'v', 'f', 'y', 'b', 'h', 'k', 'm', 'p',
+                  'g', 'u', 'd', 'c', 'l', 'o', 't', 'n', 'r', 'a', 'i', 's', 'e'};
 
 #endif // CONSTANTS_H

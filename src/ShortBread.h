@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "Dictionnary.h"
-
 class ShortBread
 {
 public:
@@ -32,11 +30,11 @@ private:
      * @brief Recurssive method building the result vector given the start and end words passed as parameters.
      *
      * @param oResult The output result containing the words to solve the shortbread problem
-     * @param csStartWord The starting word
      * @param csEndWord The target word
      * @param letterPosition The current position in the word to work on
      */
-    static void shortBreadAlgo(std::vector<std::string> &oResult, const std::string &csStartWord, const std::string &csEndWord, std::size_t &letterPosition);
+    static void shortBreadAlgo(std::vector<std::string> &oResult, const std::string &csEndWord,
+                               std::size_t &letterPosition);
 };
 
 #endif // SHORTBREAD_H

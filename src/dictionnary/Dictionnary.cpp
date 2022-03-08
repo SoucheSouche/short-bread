@@ -10,7 +10,7 @@
 
 bool Dictionnary::bIsInitialized = false;
 std::size_t Dictionnary::byteReceived = 0;
-std::map<std::size_t, std::vector<std::string>> Dictionnary::subsetDictionnary;
+std::map<std::size_t, std::vector<std::string>> Dictionnary::subsetDictionnary{};
 
 void Dictionnary::init(const std::string &csDictionnaryUrl)
 {
@@ -54,7 +54,7 @@ bool Dictionnary::getFile(const std::string &csDictionnaryUrl)
         (void)curl_easy_setopt(curl, CURLOPT_URL, csDictionnaryUrl.c_str());
         (void)curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Dictionnary::writeCallback);
         (void)curl_easy_setopt(curl, CURLOPT_WRITEDATA, &sDictionnaryStream);
-        (void)curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 5000);
+        (void)curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 20000);
         res = curl_easy_perform(curl);
 
         byteReceived = 0;
