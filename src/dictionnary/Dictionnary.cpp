@@ -89,6 +89,11 @@ void Dictionnary::sortDictionnary(const std::string &csDictionnaryStream)
     {
         subsetDictionnary[word.size()].push_back(word);
     }
+
+    for (auto &it : subsetDictionnary)
+    {
+        std::cout << it.second.size() << " words found with size " << std::to_string(it.first) << std::endl;
+    }
 }
 
 void Dictionnary::initializationCheck()

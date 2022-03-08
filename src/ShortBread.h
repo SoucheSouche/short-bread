@@ -27,14 +27,13 @@ private:
     static std::mutex mutex;
 
     /**
-     * @brief Recurssive method building the result vector given the start and end words passed as parameters.
+     * @brief Recursive method building the result vector given the start and end words passed as parameters.
      *
      * @param oResult The output result containing the words to solve the shortbread problem
      * @param csEndWord The target word
-     * @param letterPosition The current position in the word to work on
+     * @param letterPosition The current starting letter position in the recursive algo process
      */
-    static void shortBreadAlgo(std::vector<std::string> &oResult, const std::string &csEndWord,
-                               std::size_t &letterPosition);
+    static void shortBreadAlgo(std::vector<std::string> &oResult, const std::string &csEndWord, std::size_t &letterPosition);
 };
 
 #endif // SHORTBREAD_H
